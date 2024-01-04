@@ -4,16 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel</title>
+    <title>Relatório Diário de Manutenção</title>
     <style>
-     
+        .container {
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            overflow: hidden;
+        }
+
+        .col-md-6 {
+            text-align: center;
+        }
 
         table {
             border-collapse: collapse;
             width: 100%;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -35,64 +44,98 @@
         .clickable-row {
             cursor: pointer;
         }
+
+        /* Adicionado um estilo para indicar que a linha é clicável */
+        #reportTitle {
+            cursor: pointer;
+            color: #3498db;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container d-flex justify-content-between">
-        <div class="card mb-3" style="max-width: 540px; width: 48%;">
-            <div class="row g-0">
-                <div class="col-md-6">
-                    <img src="{{ imagem_path }}" alt="Descrição da imagem">
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card-body">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card mb-3" style="max-width: 540px; width: 48%;">
-            <div class="row g-0">
-                <div class="col-md-6">
-                    <div class="card-body mt-1">
-                        <h5 class="card-title">Relatório Diário de Manutenção Departamento de Manutenção Elétrica
-                        </h5>
-                        <p class="card-text"><small class="text-body-secondary">Semana: 51 Data: 18/12/2023</small></p>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="col-md-6">
+            <img src="{{ imagem_path }}" alt="Descrição da imagem">
         </div>
     </div>
 
-    <table id="dataTable">
-        <tr>
-            {% for header in data[0] %}
-                <th>{{ header }}</th>
-            {% endfor %}
-        </tr>
-        {% for row in data[1:] %}
-            <tr class="toggle-row clickable-row">
-                {% for cell in row %}
+    <div class="container">
+        <div class="col-md-6" id="reportTitle">
+            <h1 class="card-title">Relatório Diário de Manutenção Departamento de Manutenção Elétrica</h1>
+            <h2 class="card-title">Semana: {{ data['Semana'].iloc[0] }} Data: {{ data['Data'].iloc[0] }}</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-6">
+            <table id="dataTable">
+                <tr>
+                    {% for header in data.columns %}
+                    <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data.itertuples(index=False) %}
+                <tr class="toggle-row clickable-row">
+                    {% for cell in row %}
                     <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+            </table>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            var title = document.getElementById('reportTitle');
             var rows = document.querySelectorAll('.toggle-row');
 
+            title.addEventListener('click', function () {
+                // Adiciona uma mensagem de confirmação antes de mostrar/ocultar colunas
+                var confirmation = confirm('Esta ação irá habilitar/desabilitar colunas ocultas. Deseja continuar?');
+
+                if (confirmation) {
+                    // Mostrar/ocultar colunas 'Semana' e 'Data' na primeira linha
+                    var headerCells = document.querySelectorAll('#dataTable th');
+                    var dataCells = document.querySelectorAll('#dataTable td');
+
+                    headerCells.forEach(function (cell, idx) {
+                        if (cell.textContent === 'Semana' || cell.textContent === 'Data') {
+                            cell.classList.toggle('hidden');
+                            dataCells.forEach(function (dataCell) {
+                                if (dataCell.cellIndex === idx) {
+                                    dataCell.classList.toggle('hidden');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
             rows.forEach(function (row, index) {
-                if (index % 2 === 0) {
-                    row.addEventListener('click', function () {
+                row.addEventListener('click', function () {
+                    // Mostrar/ocultar linhas alternadas
+                    if (index % 2 === 0) {
                         var nextRow = rows[index + 1];
 
                         if (nextRow) {
                             nextRow.classList.toggle('hidden');
+                        }
+                    }
+                });
+            });
+
+            // Ocultar as colunas 'Semana' e 'Data' inicialmente
+            var headerCells = document.querySelectorAll('#dataTable th');
+            var dataCells = document.querySelectorAll('#dataTable td');
+
+            headerCells.forEach(function (cell, index) {
+                if (cell.textContent === 'Semana' || cell.textContent === 'Data') {
+                    cell.classList.add('hidden');
+                    dataCells.forEach(function (dataCell) {
+                        if (dataCell.cellIndex === index) {
+                            dataCell.classList.add('hidden');
                         }
                     });
                 }
