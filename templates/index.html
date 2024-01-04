@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel</title>
+    <style>
+     
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(2n) {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(2n-1) {
+            background-color: #f2f2f2;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .clickable-row {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container d-flex justify-content-between">
+        <div class="card mb-3" style="max-width: 540px; width: 48%;">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img src="{{ imagem_path }}" alt="Descrição da imagem">
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3" style="max-width: 540px; width: 48%;">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <div class="card-body mt-1">
+                        <h5 class="card-title">Relatório Diário de Manutenção Departamento de Manutenção Elétrica
+                        </h5>
+                        <p class="card-text"><small class="text-body-secondary">Semana: 51 Data: 18/12/2023</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="dataTable">
+        <tr>
+            {% for header in data[0] %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data[1:] %}
+            <tr class="toggle-row clickable-row">
+                {% for cell in row %}
+                    <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var rows = document.querySelectorAll('.toggle-row');
+
+            rows.forEach(function (row, index) {
+                if (index % 2 === 0) {
+                    row.addEventListener('click', function () {
+                        var nextRow = rows[index + 1];
+
+                        if (nextRow) {
+                            nextRow.classList.toggle('hidden');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
