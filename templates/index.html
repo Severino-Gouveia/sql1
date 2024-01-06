@@ -5,133 +5,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório Diário de Manutenção</title>
-    <style>
-        .container {
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
-            overflow: hidden;
-        }
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-        .col-md-6 {
-            text-align: center;
-        }
+    <!-- Incluindo jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+  <style>
+    body {
+        margin: 0;
+    }
+    
+    .col-md-6 {
+        text-align: center;
+    }
+    .containe {
+        margin: 5px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        overflow: hidden;
+        margin-top: 8px;
+    }
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
 
-        tr:nth-child(2n) {
-            background-color: #3498db;
-            color: white;
-        }
-
-        tr:nth-child(2n-1) {
-            background-color: #f2f2f2;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .clickable-row {
-            cursor: pointer;
-        }
-
-        /* Adicionado um estilo para indicar que a linha é clicável */
-        #reportTitle {
-            cursor: pointer;
-            color: #3498db;
-        }
-    </style>
+    #reportTitle {
+       
+        color: #3498db;
+    }
+    .hidden {
+        display: none;
+    }
+    
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="col-md-6">
-            <img src="{{ imagem_path }}" alt="Descrição da imagem">
+  
+       <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+            <div class="bg-dark p-4 text-light">
+                <div class="nav-item dropdown" id="departamentoDropdown">
+                    
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filtrar Departamento
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
+                            
+                        </div>
+                    
+                </div>
+              </div>
+              <div class="bg-dark p-4 text-light">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filtrar Data
+                    </a>
+                    <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Escolha Data</a>
+                    </div>
+                    
+                </div>
+              </div>
+            
+          
+        </div>
+        <nav class="navbar navbar-dark" style="background-color: #3498db;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </nav>
+      </div>
+        
+    </nav>
+
+    <div class="containe">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW">
+
+            </div>
+            <div class="col-md-6 p-5" id="reportTitle">
+                <h1 class="card-title">Relatório Diário de Manutenção e Operação {{ data[0]['Departamento'] }}</h1>
+                <h1 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h2>
+            </div>
+            
+    </div>
+    <div class="containe">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="dataTable" class="table">
+                        <thead>
+                            <tr>
+                                {% for header in data[0].keys() %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                            <tr class="toggle-row clickable-row">
+                                {% for cell in row.values() %}
+                                <td>{{ cell }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="container">
-        <div class="col-md-6" id="reportTitle">
-            <h1 class="card-title">Relatório Diário de Manutenção Departamento de Manutenção Elétrica</h1>
-            <h2 class="card-title">Semana: {{ data['Semana'].iloc[0] }} Data: {{ data['Data'].iloc[0] }}</h2>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="col-md-6">
-            <table id="dataTable">
-                <tr>
-                    {% for header in data.columns %}
-                    <th>{{ header }}</th>
-                    {% endfor %}
-                </tr>
-                {% for row in data.itertuples(index=False) %}
-                <tr class="toggle-row clickable-row">
-                    {% for cell in row %}
-                    <td>{{ cell }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-
     <script>
+        
         document.addEventListener('DOMContentLoaded', function () {
-            var title = document.getElementById('reportTitle');
-            var rows = document.querySelectorAll('.toggle-row');
-
-            title.addEventListener('click', function () {
-                // Adiciona uma mensagem de confirmação antes de mostrar/ocultar colunas
-                var confirmation = confirm('Esta ação irá habilitar/desabilitar colunas ocultas. Deseja continuar?');
-
-                if (confirmation) {
-                    // Mostrar/ocultar colunas 'Semana' e 'Data' na primeira linha
-                    var headerCells = document.querySelectorAll('#dataTable th');
-                    var dataCells = document.querySelectorAll('#dataTable td');
-
-                    headerCells.forEach(function (cell, idx) {
-                        if (cell.textContent === 'Semana' || cell.textContent === 'Data') {
-                            cell.classList.toggle('hidden');
-                            dataCells.forEach(function (dataCell) {
-                                if (dataCell.cellIndex === idx) {
-                                    dataCell.classList.toggle('hidden');
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-
-            rows.forEach(function (row, index) {
-                row.addEventListener('click', function () {
-                    // Mostrar/ocultar linhas alternadas
-                    if (index % 2 === 0) {
-                        var nextRow = rows[index + 1];
-
-                        if (nextRow) {
-                            nextRow.classList.toggle('hidden');
-                        }
-                    }
-                });
-            });
-
-            // Ocultar as colunas 'Semana' e 'Data' inicialmente
+            // Ocultar as colunas 'Semana', 'Data', e 'Departamento' inicialmente
             var headerCells = document.querySelectorAll('#dataTable th');
             var dataCells = document.querySelectorAll('#dataTable td');
 
             headerCells.forEach(function (cell, index) {
-                if (cell.textContent === 'Semana' || cell.textContent === 'Data') {
+                if (cell.textContent === 'Semana' || cell.textContent === 'Data' || cell.textContent === 'Departamento') {
                     cell.classList.add('hidden');
                     dataCells.forEach(function (dataCell) {
                         if (dataCell.cellIndex === index) {
@@ -140,7 +150,14 @@
                     });
                 }
             });
+
+            // Initialize DataTables
+            $('#dataTable').DataTable({
+                "responsive": true,
+                "autoWidth": false
+            });
         });
+        
     </script>
 </body>
 
