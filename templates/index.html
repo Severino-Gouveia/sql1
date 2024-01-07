@@ -17,15 +17,30 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
+    <!-- Incluindo Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Incluindo jQuery UI para o widget de calendário -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Incluindo DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <!-- Incluindo jQuery, Popper.js, Bootstrap, DataTables e autoNumeric JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autoNumeric/4.5.6/autoNumeric.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+  
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+
   </head>
 
   <style>
     body {
         margin: 0;
-    }
-    
-    .col-md-6 {
-        text-align: center;
     }
     .containe {
         margin: 5px;
@@ -33,8 +48,10 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 1);
         overflow: hidden;
         margin-top: 8px;
+        text-align: center;
+        
     }
-
+ 
     th,
     td {
         border: 1px solid #ddd;
@@ -51,19 +68,20 @@
     }
     
 </style>
+
 </head>
 
 <body>
   
        <div class="pos-f-t">
         <div class="collapse" id="navbarToggleExternalContent">
-            <div class="bg-dark p-4 text-light">
+            <div class="bg-dark p-4 text-light ">
                 <div class="nav-item dropdown" id="departamentoDropdown">
                     
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle p-4 w-25" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Filtrar Departamento
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
                             <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
                             <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
@@ -73,16 +91,16 @@
                 </div>
               </div>
               <div class="bg-dark p-4 text-light">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filtrar Data
-                    </a>
-                    <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Escolha Data</a>
-                    </div>
-                    
-                </div>
-              </div>
+                <div class="bg-dark p-4 text-light">
+                <p class="card-text">Pesquisar por data</p>
+                <form class="d-flex" role="search">
+                    <!-- Adicione um campo de entrada de texto formatado para a data -->
+                    <input class="form-control me-2 w-25" type="text" id="datepicker" placeholder="DD/MM/YYYY" oninput="restrictInput(this)">
+                    <!-- Adicione um botão que, quando clicado, abrirá o calendário -->
+                    <button class="btn btn-outline-success" type="button" id="open-calendar">Pesquisar</button>
+                </form>
+            </div>
+            </div>
             
           
         </div>
@@ -97,11 +115,13 @@
 
     <div class="containe">
         <div class="row">
-            <div class="col-md-6 p-5">
+            <div class="col-12 p-5">
                 <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW">
 
             </div>
-            <div class="col-md-6 p-5" id="reportTitle">
+    </div>
+    <div class="containe">
+            <div class="col-12 p-5" id="reportTitle">
                 <h1 class="card-title">Relatório Diário de Manutenção e Operação {{ data[0]['Departamento'] }}</h1>
                 <h1 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h2>
             </div>
@@ -134,7 +154,60 @@
         </div>
     </div>
     <script>
-        
+ // Set the language to Portuguese for the datepicker
+ $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+
+ // Initialize the datepicker
+ $(function () {
+     $("#datepicker").datepicker({
+         dateFormat: "dd/mm/yy", // Set the desired date format
+         showOtherMonths: true,
+         selectOtherMonths: true,
+         monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+         dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+     });
+ });
+
+ // Function to restrict input to numeric characters and '/'
+ function restrictInput(input) {
+     input.value = input.value.replace(/[^0-9/]/g, '');
+ }
+ // Função para restringir a entrada a números
+            function restrictInput(input) {
+            var formattedDate = input.value.replace(/\D/g, '').replace(/(\d{2})(\d{0,2})(\d{0,4})/, '$1/$2/$3');
+            input.value = formattedDate.substring(0, 10); // Limita o comprimento a 10 caracteres
+        }
+
+        $(function () {
+            // Inicialize o widget de calendário
+            $("#datepicker").datepicker();
+
+            // Inicialize o campo de entrada com formatação automática para data
+            $('#datepicker').autoNumeric('init', {
+                aSep: '',
+                aSign: '',
+                vMin: '0',
+                vMax: '9999999999',
+                mDec: 0
+            });
+
+            // Lógica para processar a entrada manual da data ou a data selecionada no calendário
+            $("#open-calendar").on("click", function () {
+                // Verifique se há uma data selecionada no widget de calendário
+                var selectedDate = $("#datepicker").datepicker("getDate");
+
+                if (selectedDate) {
+                    // Ação desejada para a data selecionada
+                    console.log("Data selecionada:", selectedDate);
+                } else {
+                    // Se nenhum data for selecionada, obtenha a data manualmente
+                    var manualDate = $("#datepicker").val();
+                    // Implemente a lógica de pesquisa ou ação desejada com a data manual
+                    console.log("Data inserida manualmente:", manualDate);
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             // Ocultar as colunas 'Semana', 'Data', e 'Departamento' inicialmente
             var headerCells = document.querySelectorAll('#dataTable th');
