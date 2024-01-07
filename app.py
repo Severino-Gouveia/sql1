@@ -2,8 +2,11 @@ import pyodbc
 import pandas as pd
 from flask import Flask, render_template, send_from_directory, request
 from datetime import date, timedelta
+from flask import Flask, render_template, send_from_directory, request, session
+
 
 app = Flask(__name__)
+app.secret_key = 'chave' 
 
 # Configurações de conexão com o banco de dados
 SERVIDOR = '172.20.20.38'
@@ -85,6 +88,9 @@ def serve_static(filename):
 # Rota para renderizar a página HTML com o filtro por departamento
 @app.route('/filtrar/<departamento>')
 def filtrar_departamento(departamento):
+    # Armazena o departamento na sessão
+    session['departamento'] = departamento
+
     data_inicial = date.today() - timedelta(days=1)
     data_final = date.today()
 
@@ -96,7 +102,7 @@ def filtrar_departamento(departamento):
         # Select only the desired columns for the RDM
         relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacoes', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
-        return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path)
+        return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
         return "Erro na consulta do banco de dados."
 
@@ -109,7 +115,8 @@ def filtrar_data():
 
     # Se o departamento não foi especificado, defina um valor padrão
     if departamento is None:
-        departamento = 'DP02'
+        # Verifica se o departamento está armazenado na sessão
+        departamento = session.get('departamento', 'DP02')
 
     # Converta as datas para o formato desejado
     data_inicial = pd.to_datetime(data_inicial).date()
@@ -123,9 +130,11 @@ def filtrar_data():
         # Restante do código permanece inalterado
         relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacoes', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
-        return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path)
+        return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
         return "Erro na consulta do banco de dados."
+
+
 
 
 # Rota para renderizar a página HTML sem filtro
