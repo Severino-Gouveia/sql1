@@ -16,19 +16,16 @@ Se você estiver se conectando a um banco de dados, certifique-se de ter o drive
 Como Executar
 Clone este repositório:
 
-bash
-Copy code
+
 git clone https://github.com/seu-usuario/seu-aplicativo.git
 cd seu-aplicativo
 Instale as dependências:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 Execute o aplicativo:
 
-bash
-Copy code
+
 python app.py
 O aplicativo estará disponível em http://localhost:5000/.
 
