@@ -1,4 +1,4 @@
-Certamente! Aqui está um exemplo de um arquivo README.md para o seu aplicativo com as informações sobre as bibliotecas necessárias:
+Para executar aplicativo com as informações sobre as bibliotecas necessárias:
 
 markdown
 Copy code
