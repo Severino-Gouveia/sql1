@@ -33,6 +33,7 @@
     body {
         margin: 0;
     }
+
     .containe {
         margin: 5px;
         border-radius: 10px;
@@ -40,9 +41,8 @@
         overflow: hidden;
         margin-top: 8px;
         text-align: center;
-        
     }
- 
+
     th,
     td {
         border: 1px solid #ddd;
@@ -51,53 +51,82 @@
     }
 
     #reportTitle {
-       
         color: #3498db;
+        margin-top: 2%;
+        
     }
+
     .hidden {
         display: none;
     }
+
+    .navbar-dark {
+        background-color: #3498db !important;
+    }
+
+    .navbar-toggler-icon {
+        color: #fff !important;
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important;
+    }
+
+    .nav-item.dropdown a {
+        color:#495057;!important;
+    }
+
+    .dropdown-menu {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+    }
+
+    .dropdown-menu a {
+        color: #fff !important;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 8px;
+    }
+
+    .btn {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
     
 </style>
+
 
 </head>
 
 <body>
        <div class="pos-f-t">
+        
         <div class="collapse" id="navbarToggleExternalContent">
+            <div class="baner ">
+                <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW">
+            </div>
             <div class="bg-dark p-4 text-light ">
+                
                 <div class="nav-item dropdown" id="departamentoDropdown">
-                    
-                        <a class="nav-link dropdown-toggle w-25" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filtrar Departamento
-                        </a>
-                        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
-                            
-                        </div>
-                    
                 </div>
               </div>
             
-            <form class="bg-dark p-4 text-light" action="/filtrar/data" method="post">
-            <div class="mb-3 w-25">
-                <label for="data_inicial" class="form-label">Data Inicial:</label>
-                <input type="date" class="form-control" name="data_inicial" required>
-            </div>
-
-            <div class="mb-3 w-25">
-                <label for="data_final" class="form-label">Data Final:</label>
-                <input type="date" class="form-control" name="data_final" required>
-            </div>
-
-            <button type="submit" class="btn btn-outline-success">Filtrar</button>
-        </form>
-
-          
         </div>
         <nav class="navbar navbar-dark" style="background-color: #3498db;">
+            
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -106,20 +135,50 @@
         
     </nav>
 
+     <!--  -->
+  
     <div class="containe">
         <div class="row">
-            <div class="col-12 p-5">
-                <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW">
+            <!-- Coluna 1 -->
+            <div class="col-3">
+                <div class="p-3 ">
+                    <div class="nav-item dropdown" id="departamentoDropdown">
+                        <a class="nav-link dropdown-toggle w-25 form-label" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filtrar Departamento
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
+                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <form class="p-4 " action="/filtrar/data" method="post">
+                    <div class="mb-3 w-75">
+                        <label for="data_inicial" class="form-label">Data Inicial:</label>
+                        <input type="date" class="form-control" name="data_inicial" required>
+                    </div>
+    
+                    <div class="mb-3 w-75">
+                        <label for="data_final" class="form-label">Data Final:</label>
+                        <input type="date" class="form-control" name="data_final" required>
+                    </div>
+    
+                    <button type="submit" class="btn btn-outline-success">Filtrar</button>
+                </form>
+            </div>
 
-            </div>
-    </div>
-    <div class="containe">
-            <div class="col-12 p-5" id="reportTitle">
+              <!-- Coluna 2 -->
+              <div class="col-6 p-5" id="reportTitle">
+               
                 <h1 class="card-title">Relatório Diário de Manutenção e Operação {{ data[0]['Departamento'] }}</h1>
-                <h1 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h2>
+                <h1 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h1>
             </div>
-            
+
+        </div>
     </div>
+    
 
     <div class="containe">
         <div class="row">
@@ -154,7 +213,8 @@
             var dataCells = document.querySelectorAll('#dataTable td');
 
             headerCells.forEach(function (cell, index) {
-                if (cell.textContent === 'Semana' || cell.textContent === 'Data' || cell.textContent === 'Departamento') {
+                if (cell.textContent === 'Semana' 
+                ) {
                     cell.classList.add('hidden');
                     dataCells.forEach(function (dataCell) {
                         if (dataCell.cellIndex === index) {

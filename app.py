@@ -61,7 +61,7 @@ def construir_consulta_sql(data_inicial, data_final, departamento):
             END as Observacao,
             R5EVENTS.EVT_STATUS as EVT_STAT, 
             R5ADDETAILS.ADD_LINE as Linha,
-            R5ADDETAILS.ADD_TEXT as Observacoes, 
+            R5ADDETAILS.ADD_TEXT as Observacões, 
             R5ADDETAILS.ADD_USER as matricula,
             R5PERSONNEL.PER_DESC as Colaborador, 
             R5CREWS.CRW_DESC AS turno,
@@ -99,7 +99,7 @@ def filtrar_departamento(departamento):
 
     if df is not None:
         # Select only the desired columns for the RDM
-        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacoes', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
+        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
         return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
@@ -127,7 +127,7 @@ def filtrar_data():
 
     if df is not None:
         # Restante do código permanece inalterado
-        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacoes', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
+        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
         return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
