@@ -1,6 +1,5 @@
 import pyodbc
 import pandas as pd
-from flask import Flask, render_template, send_from_directory, request
 from datetime import date, timedelta
 from flask import Flask, render_template, send_from_directory, request, session
 
