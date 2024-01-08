@@ -1,7 +1,4 @@
-Para executar aplicativo com as informações sobre as bibliotecas necessárias:
 
-markdown
-Copy code
 # Seu Aplicativo
 
 Este é um aplicativo Python que utiliza o Flask para criar um servidor web, pyodbc para conexão com banco de dados, e pandas para manipulação de dados.
