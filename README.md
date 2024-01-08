@@ -1,24 +1,39 @@
-Para rodar  você precisará instalar as seguintes bibliotecas no ambiente em que deseja executar o código:
+Certamente! Aqui está um exemplo de um arquivo README.md para o seu aplicativo com as informações sobre as bibliotecas necessárias:
 
-pyodbc: Esta biblioteca é usada para conectar-se a bancos de dados usando o ODBC (Open Database Connectivity). Certifique-se de ter um driver ODBC instalado para o banco de dados ao qual você deseja se conectar.
-
-Você pode instalar o pyodbc usando o seguinte comando:
-
-bash
+markdown
 Copy code
+# Seu Aplicativo
+
+Este é um aplicativo Python que utiliza o Flask para criar um servidor web, pyodbc para conexão com banco de dados, e pandas para manipulação de dados.
+
+## Pré-requisitos
+
+Certifique-se de ter o Python instalado no seu ambiente. Além disso, instale as seguintes bibliotecas usando o `pip`:
+
+```bash
 pip install pyodbc
-pandas: Esta biblioteca é amplamente utilizada para manipulação e análise de dados em Python.
-
-Você pode instalar o pandas usando o seguinte comando:
-
-bash
-Copy code
 pip install pandas
-Flask: O Flask é um framework web leve para Python. Ele é usado para criar aplicativos web.
+pip install Flask
+Se você estiver se conectando a um banco de dados, certifique-se de ter o driver ODBC correspondente instalado no seu sistema.
 
-Você pode instalar o Flask usando o seguinte comando:
+Como Executar
+Clone este repositório:
 
 bash
 Copy code
-pip install Flask
-Certifique-se de que você também tenha o Python instalado no seu ambiente. Se você estiver usando um banco de dados específico, como SQL Server, certifique-se de ter o driver correspondente instalado e configurado no seu sistema.
+git clone https://github.com/seu-usuario/seu-aplicativo.git
+cd seu-aplicativo
+Instale as dependências:
+
+bash
+Copy code
+pip install -r requirements.txt
+Execute o aplicativo:
+
+bash
+Copy code
+python app.py
+O aplicativo estará disponível em http://localhost:5000/.
+
+Configuração do Banco de Dados
+Se estiver usando um banco de dados, certifique-se de editar as configurações de conexão no arquivo app.py.
