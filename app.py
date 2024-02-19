@@ -41,7 +41,7 @@ def construir_consulta_sql(data_inicial, data_final, departamento):
         SELECT 
             R5ADDETAILS.ADD_CREATED as DATA_TEXTO, 
             R5ADDETAILS.ADD_CODE as AES,
-            R5EVENTS.EVT_DESC as Descricao, 
+            R5EVENTS.EVT_DESC as Descrição, 
             CASE R5EVENTS.EVT_STATUS
                 WHEN 'FE' THEN 'Fechado'
                 WHEN 'RP' THEN 'Reprogramar'
@@ -99,7 +99,7 @@ def filtrar_departamento(departamento):
 
     if df is not None:
         # Select only the desired columns for the RDM
-        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
+        relatorio_estilizado = df[['AES', 'Descrição', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
         return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
@@ -127,7 +127,7 @@ def filtrar_data():
 
     if df is not None:
         # Restante do código permanece inalterado
-        relatorio_estilizado = df[['AES', 'Descricao', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
+        relatorio_estilizado = df[['AES', 'Descrição', 'Colaborador', 'Observacões', 'Hora', 'Status', 'Semana', 'Data', 'Departamento']]
         imagem_path = 'img/ASSINATURA_2024_GPTW.png'
         return render_template('index.html', data=relatorio_estilizado.to_dict('records'), imagem_path=imagem_path, departamento=departamento)
     else:
@@ -141,8 +141,13 @@ def filtrar_data():
 def index():
     return filtrar_departamento('DP01')  # Defina o departamento padrão aqui
 
+
+@app.route('/prog')
+def prog():
+    return render_template('prog.html')
+
 # Remova esta parte se estiver usando o aplicativo Flask em um ambiente de produção
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 
     

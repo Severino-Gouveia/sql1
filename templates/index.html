@@ -40,7 +40,7 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 1);
         overflow: hidden;
         margin-top: 8px;
-        text-align: center;
+     
     }
 
     th,
@@ -52,8 +52,7 @@
 
     #reportTitle {
         color: #3498db;
-        margin-top: 2%;
-        
+        text-align: center;   
     }
 
     .hidden {
@@ -84,6 +83,7 @@
 
     .dropdown-menu a {
         color: #fff !important;
+        
     }
 
     .form-label {
@@ -105,6 +105,13 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    .baner img {
+        max-height: 100%; /* Defina a altura máxima desejada */
+        max-width: 50%;
+    }
+  
+    
+
     
 </style>
 
@@ -115,11 +122,9 @@
        <div class="pos-f-t">
         
         <div class="collapse" id="navbarToggleExternalContent">
-            <div class="baner ">
-                <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW">
-            </div>
+          
             <div class="bg-dark p-4 text-light ">
-                
+                <a class="nav-link active" aria-current="page" href="{{ url_for('prog') }}">Prog</a>
                 <div class="nav-item dropdown" id="departamentoDropdown">
                 </div>
               </div>
@@ -136,49 +141,64 @@
     </nav>
 
      <!--  -->
-  
-    <div class="containe">
+    
+     <div class="cont">
         <div class="row">
-            <!-- Coluna 1 -->
-            <div class="col-3">
-                <div class="p-3 ">
-                    <div class="nav-item dropdown" id="departamentoDropdown">
-                        <a class="nav-link dropdown-toggle w-25 form-label" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filtrar Departamento
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
-                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
-                        </div>
-                    </div>
+            <!-- Coluna da Imagem -->
+            <div class="col-md-3 mt-3">
+                <div class="baner">
+                    <img src="{{ url_for('static', filename=imagem_path) }}" alt="Assinatura GPTW" class="img-fluid">
                 </div>
-    
-                <form class="p-4 " action="/filtrar/data" method="post">
-                    <div class="mb-3 w-75">
-                        <label for="data_inicial" class="form-label">Data Inicial:</label>
-                        <input type="date" class="form-control" name="data_inicial" required>
-                    </div>
-    
-                    <div class="mb-3 w-75">
-                        <label for="data_final" class="form-label">Data Final:</label>
-                        <input type="date" class="form-control" name="data_final" required>
-                    </div>
-    
-                    <button type="submit" class="btn btn-outline-success">Filtrar</button>
-                </form>
+           
             </div>
 
-              <!-- Coluna 2 -->
-              <div class="col-6 p-5" id="reportTitle">
-               
-                <h1 class="card-title">Relatório Diário de Manutenção e Operação {{ data[0]['Departamento'] }}</h1>
-                <h1 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h1>
-            </div>
+            <!-- Coluna do Título do Relatório e Outros Elementos -->
+            <div class="col-md-8">
+                <div id="reportTitle">
+                    <h5 class="card-title">Relatório Diário de Manutenção e Operação {{ data[0]['Departamento'] }}</h3>
+                    <h5 class="card-title">Semana: {{ data[0]['Semana'] }} Data: {{ data[0]['Data'] }}</h3>
+                </div>
 
+                <!-- Dropdowns e Formulários -->
+                <div class="row ">
+                    
+                    <div class="col-md-12">
+                        <form class="form-inline align-items-center justify-content-center" action="/filtrar/data" method="post">
+                            <div class="form-group mr-2">
+                                <div class="dropdown-highlight">
+                                    <div class="nav-item dropdown" id="departamentoDropdown">
+                                        <a class="nav-link dropdown-toggle w-100 form-label" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            
+                                            <button type="button" class="btn btn-primary btn-sm">Filtrar DP</button>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP01') }}">DP01</a>
+                                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP02') }}">DP02</a>
+                                            <a class="dropdown-item" href="{{ url_for('filtrar_departamento', departamento='DP03') }}">DP03</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mr-2">
+                                <label for="data_inicial" class="form-label mr-2">Data Inicial:</label>
+                                <input type="date" class="form-control" name="data_inicial" required>
+                            </div>
+                            <div class="form-group mr-2">
+                                <label for="data_final" class="form-label mr-2">Data Final:</label>
+                                <input type="date" class="form-control" name="data_final" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
-    
+
+  
 
     <div class="containe">
         <div class="row">
